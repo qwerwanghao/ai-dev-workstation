@@ -1,0 +1,24 @@
+layout {
+    pane split_direction="horizontal" {
+
+        pane split_direction="vertical" {
+
+            pane command="bash" {
+                args "-c" "exec claude --dangerously-skip-permissions || bash"
+            }
+
+            pane command="bash" {
+                args "-c" "exec codex || bash"
+            }
+        }
+
+        pane split_direction="vertical" {
+
+            pane command="bash" {
+                args "-c" "exec gemini || bash"
+            }
+
+            pane
+        }
+    }
+}

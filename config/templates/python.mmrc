@@ -1,0 +1,31 @@
+# Python Project Template
+# PROJECT_TYPE: python
+
+PROJECT_NAME="my-python-project"
+PROJECT_DIR="/path/to/project"
+PROJECT_WIN="D:\\Projects\\my-python-project"
+PROJECT_TYPE="python"
+
+# Windows Drive Mounts
+WINDOWS_DRIVE_F="/mnt/f"
+WINDOWS_DRIVE_C="/mnt/c"
+
+# Application Paths
+declare -A APPS
+APPS[code]="C:\\Program Files\\Microsoft VS Code\\Code.exe"
+APPS[pycharm]="C:\\Program Files\\JetBrains\\PyCharm\\bin\\pycharm64.exe"
+
+# Zellij Configuration
+ZELLIJ_LAYOUT="ai_workstation"
+
+# Custom Commands (Python)
+declare -A CMDS
+CMDS[install]="pip install -e ."
+CMDS[dev]="python -m dev"
+CMDS[test]="pytest"
+CMDS[lint]="ruff check ."
+CMDS[format]="ruff format ."
+CMDS[venv]="python -m venv .venv && source .venv/bin/activate"
+
+# Workspace Applications
+WORKSPACE_APPS=("code")

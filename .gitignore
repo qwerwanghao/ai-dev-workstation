@@ -1,0 +1,53 @@
+# AI Dev Workstation - .gitignore
+
+# Configuration files (personal)
+.mmrc
+*.backup.*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+.tmp/
+tmp/
+
+# Screenshots (unless explicitly added)
+screenshots/*.png
+!screenshots/.gitkeep
+
+# Build artifacts
+dist/
+build/
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Node
+node_modules/
+package-lock.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.so
+venv/
+.venv/
+
+# Rust
+target/
+Cargo.lock

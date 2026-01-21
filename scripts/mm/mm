@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+# mm - AI Dev Workstation Project Manager
+# Main entry point for the mm tool
+
+set -euo pipefail
+
+# Script directory
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Source core functions
+# shellcheck source=scripts/mm/mm-core.sh
+source "$SCRIPT_DIR/mm-core.sh"
+
+# Source command implementations
+# shellcheck source=scripts/mm/mm-commands.sh
+source "$SCRIPT_DIR/mm-commands.sh"
+
+#-------------------------------------------------------------------------------
+# Main Entry Point
+#-------------------------------------------------------------------------------
+
+mm::main() {
+    # Handle no arguments - start full workspace
+    if [[ $# -eq 0 ]]; then
+        mm::cmd_workspace
+        exit 0
+    fi
+
+    # Parse command
+    local command="$1"
+    shift || true
+
+    case "$command" in
+        init)
+            mm::cmd_init "$@"
+            ;;
+        ai)
+            mm::cmd_ai "$@"
+            ;;
+        stop)
+            mm::cmd_stop "$@"
+            ;;
+        exec)
+            mm::cmd_exec "$@"
+            ;;
+        list|ls)
+            mm::cmd_list "$@"
+            ;;
+        help|--help|-h)
+            mm::cmd_help
+            ;;
+        version|--version|-v)
+            mm::version
+            ;;
+        workspace)
+            mm::cmd_workspace "$@"
+            ;;
+        *)
+            # Try to execute as custom command
+            if mm::load_config 2>/dev/null; then
+                if [[ -n "${CMDS[$command]:-}" ]]; then
+                    mm::cmd_exec "$command" "$@"
+                    exit 0
+                fi
+            fi
+
+            mm::error "Unknown command: $command"
+            echo ""
+            mm::cmd_help
+            exit 1
+            ;;
+    esac
+}
+
+# Run main function
+mm::main "$@"

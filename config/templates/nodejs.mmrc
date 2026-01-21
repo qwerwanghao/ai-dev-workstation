@@ -1,0 +1,31 @@
+# Node.js Project Template
+# PROJECT_TYPE: nodejs
+
+PROJECT_NAME="my-nodejs-app"
+PROJECT_DIR="/path/to/project"
+PROJECT_WIN="D:\\Projects\\my-nodejs-app"
+PROJECT_TYPE="nodejs"
+
+# Windows Drive Mounts
+WINDOWS_DRIVE_F="/mnt/f"
+WINDOWS_DRIVE_C="/mnt/c"
+
+# Application Paths
+declare -A APPS
+APPS[code]="C:\\Program Files\\Microsoft VS Code\\Code.exe"
+
+# Zellij Configuration
+ZELLIJ_LAYOUT="ai_workstation"
+
+# Custom Commands (Node.js)
+declare -A CMDS
+CMDS[install]="npm install"
+CMDS[dev]="npm run dev"
+CMDS[build]="npm run build"
+CMDS[test]="npm test"
+CMDS[lint]="npm run lint"
+CMDS[format]="npm run format"
+CMDS[clean]="rm -rf node_modules dist"
+
+# Workspace Applications
+WORKSPACE_APPS=("code")

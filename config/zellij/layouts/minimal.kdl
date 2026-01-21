@@ -1,0 +1,24 @@
+// Minimal layout - 2 pane setup
+// Top: Main work | Bottom: Shell/Tools
+
+layout {
+    pane size=1 borderless=true {
+        plugin location="zellij:tab-bar"
+    }
+
+    pane split_direction="vertical" {
+        pane {
+            name "main"
+            command "bash"
+        }
+
+        pane size=10 {
+            name "shell"
+            command "bash"
+        }
+    }
+
+    pane size=2 borderless=true {
+        plugin location="zellij:status-bar"
+    }
+}
