@@ -51,7 +51,7 @@ uname -r
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourname/ai-dev-workstation.git
+git clone https://github.com/ai-dev-workstation/ai-dev-workstation.git
 cd ai-dev-workstation
 ```
 

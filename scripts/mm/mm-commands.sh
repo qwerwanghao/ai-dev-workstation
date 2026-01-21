@@ -297,6 +297,6 @@ CONFIGURATION:
     Edit this file to customize your project settings.
 
 FOR MORE INFORMATION:
-    https://github.com/yourname/ai-dev-workstation
+    https://github.com/ai-dev-workstation/ai-dev-workstation
 EOF
 }

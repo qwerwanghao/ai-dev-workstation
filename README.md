@@ -85,7 +85,7 @@ A 4-pane layout for multi-AI collaboration:
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourname/ai-dev-workstation.git
+git clone https://github.com/ai-dev-workstation/ai-dev-workstation.git
 cd ai-dev-workstation
 
 # Run the installer
@@ -266,7 +266,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📮 Contact
 
-- GitHub Issues: [https://github.com/yourname/ai-dev-workstation/issues](https://github.com/yourname/ai-dev-workstation/issues)
+- GitHub Issues: [https://github.com/ai-dev-workstation/ai-dev-workstation/issues](https://github.com/ai-dev-workstation/ai-dev-workstation/issues)
 
 ---
 

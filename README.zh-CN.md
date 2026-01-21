@@ -87,7 +87,7 @@ Windows 11
 
 ```bash
 # 克隆仓库
-git clone https://github.com/yourname/ai-dev-workstation.git
+git clone https://github.com/ai-dev-workstation/ai-dev-workstation.git
 cd ai-dev-workstation
 
 # 运行安装程序
@@ -268,7 +268,7 @@ ai-dev-workstation/
 
 ## 📮 联系方式
 
-- GitHub Issues: [https://github.com/yourname/ai-dev-workstation/issues](https://github.com/yourname/ai-dev-workstation/issues)
+- GitHub Issues: [https://github.com/ai-dev-workstation/ai-dev-workstation/issues](https://github.com/ai-dev-workstation/ai-dev-workstation/issues)
 
 ---
 

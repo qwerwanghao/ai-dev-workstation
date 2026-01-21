@@ -15,7 +15,7 @@ WINDOWS_DRIVE_C="/mnt/c"
 declare -A APPS
 APPS[code]="C:\\Program Files\\Microsoft VS Code\\Code.exe"
 APPS[vs]="C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\devenv.exe"
-APPS[rider]="C:\\Users\\yourname\\AppData\\Local\\Programs\\Rider\\bin\\rider64.exe"
+APPS[rider]="C:\\Users\\ai-dev-workstation\\AppData\\Local\\Programs\\Rider\\bin\\rider64.exe"
 APPS[unity]="C:\\Program Files\\Unity Hub\\Unity Hub.exe"
 
 # Zellij Configuration

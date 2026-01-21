@@ -51,7 +51,7 @@ EXAMPLES:
     ./install.sh --no-cli-tools     # Skip CLI tools
 
 FOR MORE INFORMATION:
-    https://github.com/yourname/ai-dev-workstation
+    https://github.com/ai-dev-workstation/ai-dev-workstation
 EOF
 }
 
@@ -372,7 +372,7 @@ main() {
     echo "  2. Run: mm init              # Initialize for your project"
     echo "  3. Run: mm                   # Start your workstation"
     echo ""
-    log_info "For more information, see: https://github.com/yourname/ai-dev-workstation"
+    log_info "For more information, see: https://github.com/ai-dev-workstation/ai-dev-workstation"
 }
 
 main

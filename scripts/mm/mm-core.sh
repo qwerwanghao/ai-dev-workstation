@@ -161,6 +161,6 @@ mm v${MM_VERSION}
 AI Dev Workstation - Project Management Tool
 
 License: MIT
-Source: https://github.com/yourname/ai-dev-workstation
+Source: https://github.com/ai-dev-workstation/ai-dev-workstation
 EOF
 }
