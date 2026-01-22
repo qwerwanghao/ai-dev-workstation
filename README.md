@@ -267,10 +267,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
+## ☕ Buy Me a Coffee
+
+If this project helps you, consider buying me a coffee!
+
 <div align="center">
 
-**Made with ❤️ by developers, for developers**
-
-[⬆ Back to Top](#-ai-dev-workstation)
+![WeChat Pay](screenshots/wechatpayqrcode.jpg)
 
 </div>

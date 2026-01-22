@@ -269,10 +269,12 @@ ai-dev-workstation/
 
 ---
 
+## ☕ 请我喝杯咖啡
+
+如果这个项目对你有帮助，欢迎请我喝杯咖啡！
+
 <div align="center">
 
-**用 ❤️ 打造，献给开发者**
-
-[⬆ 返回顶部](#-ai-开发工作站)
+![微信支付](screenshots/wechatpayqrcode.jpg)
 
 </div>
