@@ -24,11 +24,16 @@ log_warn() { echo -e "\033[0;33m[WARN]\033[0m $*"; }
 # Uninstallation Functions
 #-------------------------------------------------------------------------------
 
-remove_mm() {
-    log_info "Removing mm script..."
-    rm -f "$HOME/bin/mm"
-    rm -rf "$HOME/.ai-dev-workstation/mm"
-    log_success "mm script removed"
+remove_of() {
+    log_info "Removing of script..."
+    rm -f "$HOME/bin/of"
+    log_success "of script removed"
+}
+
+remove_of_config() {
+    log_info "Removing of configuration..."
+    rm -rf "$HOME/.config/of"
+    log_success "of configuration removed"
 }
 
 remove_configs() {
@@ -86,7 +91,8 @@ main() {
     fi
 
     echo ""
-    remove_mm
+    remove_of
+    remove_of_config
     remove_configs
     remove_shell_config
     remove_install_dir

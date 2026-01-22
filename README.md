@@ -23,7 +23,7 @@ A modern, AI-powered terminal-based development workstation built on:
 - **🧩 Smart Multiplexing**: Zellij with custom workspace layouts
 - **🛠️ Modern CLI Tools**: bat, ripgrep, eza, lazygit, zoxide, delta
 - **🖥️ Windows Integration**: Seamless WSL2-Windows workflow
-- **📦 Project Management**: Generalized `mm` tool for any project type
+- **📦 Project Management**: `of` - multi-project manager with quick switching
 - **⚡ One-Command Setup**: Automated installation with verification
 
 ---
@@ -44,7 +44,7 @@ Windows 11
                 ├── zsh-syntax-highlighting
                 └── fzf
                 │
-                └── mm (Project Manager)
+                └── of (Project Manager)
                     └── AI CLI Tools
                         ├── claude
                         ├── codex
@@ -97,70 +97,72 @@ The installer will:
 - Install Zellij (terminal multiplexer)
 - Install modern CLI tools (bat, ripgrep, eza, lazygit, zoxide, delta)
 - Configure your shell with aliases and integrations
-- Install the `mm` project manager
+- Install the `of` project manager
 
-### Initialize Your Project
+### Get Started
 
 ```bash
-# Initialize for your project
-mm init /path/to/project
+# Register your project (run from project directory)
+of register myproject
 
-# Start your workstation
-mm
+# Start your workstation (editor + AI)
+of start
+
+# Or start AI workstation only
+of ai
 ```
 
 ---
 
 ## 📖 Usage
 
-### The `mm` Command
+### The `of` Command
 
 ```bash
-# Start full workspace (IDEs + AI)
-mm
+# Register current directory as a project
+of register myproject
+
+# Switch current project
+of use myproject
+
+# List all registered projects
+of list
+
+# Start full workspace (editor + AI)
+of start [project_name]
 
 # Start AI workstation only
-mm ai
+of ai [project_name]
 
-# Initialize project configuration
-mm init [directory]
-
-# Execute custom commands
-mm exec build
-mm exec test
-mm exec dev
-
-# List available commands
-mm list
-
-# Stop workspace applications
-mm stop
+# Stop all tools
+of stop
 
 # Show help
-mm help
+of help
 ```
 
 ### Configuration
 
-Edit `~/.mmrc` to customize your project:
+`of` uses JSON configuration at `~/.config/of/projects.json`:
 
-```bash
-# Project Configuration
-PROJECT_NAME="my-project"
-PROJECT_DIR="/path/to/project"
-PROJECT_WIN="D:\\Projects\\my-project"
-PROJECT_TYPE="nodejs"  # unity-csharp, nodejs, python, generic
-
-# Custom Commands
-declare -A CMDS
-CMDS[build]="npm run build"
-CMDS[dev]="npm run dev"
-CMDS[test]="npm test"
-
-# Workspace Applications
-declare -A APPS
-APPS[code]="C:\\Program Files\\Microsoft VS Code\\Code.exe"
-WORKSPACE_APPS=("code")
+```json
+{
+  "current": "myproject",
+  "default_editor": "antigravity",
+  "zellij_layout": "ai_workstation",
+  "editors": {
+    "antigravity": "C:\\Users\\YourName\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+    "vscode": "C:\\Program Files\\Microsoft VS Code\\Code.exe"
+  },
+  "projects": {
+    "myproject": {
+      "name": "myproject",
+      "win_path": "F:\\Git\\myproject",
+      "wsl_path": "/mnt/f/Git/myproject",
+      "editor": "antigravity"
+    }
+  }
+}
 ```
 
 ---
@@ -181,17 +183,12 @@ ai-dev-workstation/
 │   │   ├── wezterm.lua
 │   │   └── colors/
 │   ├── shell/                   # Shell configurations
-│   └── templates/               # Project templates
-│       ├── .mmrc.example
-│       ├── nodejs.mmrc
-│       ├── python.mmrc
-│       ├── unity-csharp.mmrc
-│       └── generic.mmrc
+│   ├── of/                      # of configuration templates
+│   │   └── projects.json.example
+│   └── templates/               # Legacy project templates
 ├── scripts/
-│   ├── mm/                      # Project manager
-│   │   ├── mm
-│   │   ├── mm-core.sh
-│   │   └── mm-commands.sh
+│   ├── of/                      # Project manager
+│   │   └── of
 │   ├── setup/                   # Setup scripts
 │   │   └── verify-install.sh
 │   └── uninstall.sh             # Uninstaller

@@ -1,0 +1,761 @@
+#!/usr/bin/env zsh
+CONFIG_DIR="$HOME/.config/of"
+CONFIG_FILE="$CONFIG_DIR/projects.json"
+PYTHON_BIN="${PYTHON_BIN:-python3}"
+
+# Detect language for messages (default to English)
+detect_lang() {
+  if [[ -n "$LC_ALL" ]]; then
+    echo "${LC_ALL%%.*}"
+  elif [[ -n "$LANG" ]]; then
+    echo "${LANG%%.*}"
+  else
+    echo "en"
+  fi
+}
+
+LANG_CODE=$(detect_lang)
+
+# Message strings
+msg() {
+  local key="$1"
+  case "$key" in
+    err_project_required)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "Error: Project name is required."
+      else
+        echo "Error: Project name is required."
+      fi
+      ;;
+    usage_register)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "Usage: of register <name> [--win=<path>] [--editor=<editor>]"
+      else
+        echo "Usage: of register <name> [--win=<path>] [--editor=<editor>]"
+      fi
+      ;;
+    err_wslpath)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "Error: wslpath not found. Please specify --win=<path>"
+      else
+        echo "Error: wslpath not found. Please specify --win=<path>"
+      fi
+      ;;
+    err_not_git)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "Error: Not a Git repository"
+      else
+        echo "Error: Not a Git repository"
+      fi
+      ;;
+    err_project_exists)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "Project '$1' already exists. Use 'of use $1' to switch to it."
+      else
+        echo "Project '$1' already exists. Use 'of use $1' to switch to it."
+      fi
+      ;;
+    project_registered)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "Project '$1' registered:"
+        echo "  WSL path: $2"
+        echo "  Win path: $3"
+        echo "  Editor: $4"
+      else
+        echo "Project '$1' registered:"
+        echo "  WSL path: $2"
+        echo "  Win path: $3"
+        echo "  Editor: $4"
+      fi
+      ;;
+    set_as_current)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "Set as current project."
+      else
+        echo "Set as current project."
+      fi
+      ;;
+    err_use_name_required)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "Error: Project name is required."
+        echo "Usage: of use <name>"
+      else
+        echo "Error: Project name is required."
+        echo "Usage: of use <name>"
+      fi
+      ;;
+    err_project_not_found)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "Error: Project '$1' not found. Use 'of list' to see available projects."
+      else
+        echo "Error: Project '$1' not found. Use 'of list' to see available projects."
+      fi
+      ;;
+    current_project_set)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "Current project set to: $1"
+      else
+        echo "Current project set to: $1"
+      fi
+      ;;
+    registered_projects)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "Registered projects:"
+      else
+        echo "Registered projects:"
+      fi
+      ;;
+    current_marker)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "* = current project"
+      else
+        echo "* = current project"
+      fi
+      ;;
+    err_no_current_project)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "Error: No current project set. Use 'of use <name>' first."
+      else
+        echo "Error: No current project set. Use 'of use <name>' first."
+      fi
+      ;;
+    err_resolve_path)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "Error: Unable to resolve project path or editor."
+      else
+        echo "Error: Unable to resolve project path or editor."
+      fi
+      ;;
+    starting_editor)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "Starting $1 for project '$2'..."
+      else
+        echo "Starting $1 for project '$2'..."
+      fi
+      ;;
+    starting_ai)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "Starting AI workstation for project '$1' (layout: $2)..."
+      else
+        echo "Starting AI workstation for project '$1' (layout: $2)..."
+      fi
+      ;;
+    stopping_tools_intro)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "About to close the following tools:"
+      else
+        echo "About to close the following tools:"
+      fi
+      ;;
+    stopping_tools_editor)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "  - Editor ($1)"
+      else
+        echo "  - Editor ($1)"
+      fi
+      ;;
+    stopping_tools_zellij)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "  - Zellij workstation"
+      else
+        echo "  - Zellij workstation"
+      fi
+      ;;
+    stopping_tools_wezterm)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "  - WezTerm window"
+      else
+        echo "  - WezTerm window"
+      fi
+      ;;
+    confirm_stop)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        read -k 1 -r "REPLY?确认关闭？[y/N] "
+      else
+        read -k 1 -r "REPLY?Confirm closing? [y/N] "
+      fi
+      ;;
+    closing_tools)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "Closing tools..."
+      else
+        echo "Closing tools..."
+      fi
+      ;;
+    exiting_zellij)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "Exiting Zellij..."
+      else
+        echo "Exiting Zellij..."
+      fi
+      ;;
+    not_in_zellij)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "Not running in Zellij, only closed applications."
+      else
+        echo "Not running in Zellij, only closed applications."
+      fi
+      ;;
+    cancelled)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "Cancelled."
+      else
+        echo "Cancelled."
+      fi
+      ;;
+    err_unknown_command)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "Unknown command: of $1"
+      else
+        echo "Unknown command: of $1"
+      fi
+      ;;
+    help_title)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "of - openfolder 项目管理器"
+      else
+        echo "of - openfolder project manager"
+      fi
+      ;;
+    help_usage)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "用法: of <命令>"
+      else
+        echo "Usage: of <command>"
+      fi
+      ;;
+    help_commands)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "Commands:"
+      else
+        echo "Commands:"
+      fi
+      ;;
+    help_register)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "  register <name>    注册当前目录为项目"
+      else
+        echo "  register <name>    Register current directory as a project"
+      fi
+      ;;
+    help_use)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "  use <name>         切换当前项目"
+      else
+        echo "  use <name>         Switch current project"
+      fi
+      ;;
+    help_list)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "  list               列出所有项目"
+      else
+        echo "  list               List all projects"
+      fi
+      ;;
+    help_start)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "  start [name]       启动编辑器 + AI 工作站"
+      else
+        echo "  start [name]       Start editor + AI workstation"
+      fi
+      ;;
+    help_ai)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "  ai [name]          启动 AI 工作站"
+      else
+        echo "  ai [name]          Start AI workstation only"
+      fi
+      ;;
+    help_stop)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "  stop               关闭所有工具"
+      else
+        echo "  stop               Close all tools"
+      fi
+      ;;
+    help_help)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "  help               显示此帮助"
+      else
+        echo "  help               Show this help"
+      fi
+      ;;
+    help_examples)
+      if [[ "$LANG_CODE" =~ ^zh ]]; then
+        echo "Examples:"
+      else
+        echo "Examples:"
+      fi
+      ;;
+    *)
+      echo "$1"
+      ;;
+  esac
+}
+
+# Ensure config directory exists
+ensure_config() {
+  if [ ! -d "$CONFIG_DIR" ]; then
+    mkdir -p "$CONFIG_DIR"
+  fi
+
+  if [ ! -f "$CONFIG_FILE" ]; then
+    $PYTHON_BIN -c "
+import json
+config = {
+    'current': '',
+    'default_editor': 'antigravity',
+    'zellij_layout': 'ai_workstation',
+    'editors': {
+        'antigravity': r'C:\Users\YOUR_USERNAME\AppData\Local\Programs\Antigravity\Antigravity.exe',
+        'vscode': r'C:\Program Files\Microsoft VS Code\Code.exe'
+    },
+    'projects': {}
+}
+with open('$CONFIG_FILE', 'w') as f:
+    json.dump(config, f, indent=2)
+"
+  fi
+}
+
+# Validate required commands
+check_command() {
+  local cmd="$1"
+  if ! command -v "$cmd" &>/dev/null; then
+    echo "Error: Required command '$cmd' not found."
+    exit 1
+  fi
+}
+
+# Register current directory as a project
+register_project() {
+  ensure_config
+
+  local name="$1"
+  if [ -z "$name" ]; then
+    msg err_project_required
+    msg usage_register
+    exit 1
+  fi
+
+  local wsl_path="$(pwd)"
+  local win_path=""
+  local editor=""
+
+  # Parse arguments
+  shift
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      --win=*)
+        win_path="${1#--win=}"
+        ;;
+      --editor=*)
+        editor="${1#--editor=}"
+        ;;
+      *)
+        echo "Unknown option: $1"
+        exit 1
+        ;;
+    esac
+    shift
+  done
+
+  # Auto-detect win_path if not specified
+  if [ -z "$win_path" ]; then
+    if command -v wslpath &>/dev/null; then
+      win_path="$(wslpath -w "$wsl_path" 2>/dev/null)" || true
+    else
+      msg err_wslpath
+      exit 1
+    fi
+  fi
+
+  # Check if it's a Git repository
+  if [ ! -d "$wsl_path/.git" ]; then
+    msg err_not_git
+    echo "Error: $wsl_path"
+    exit 1
+  fi
+
+  # Get current config and check if project exists
+  local existing
+  existing=$($PYTHON_BIN -c "
+import json, sys
+with open('$CONFIG_FILE', 'r') as f:
+    config = json.load(f)
+if '$name' in config['projects']:
+    print('EXISTS')
+" 2>/dev/null)
+
+  if [ "$existing" = "EXISTS" ]; then
+    msg err_project_exists "$name"
+    exit 1
+  fi
+
+  # Use default editor if not specified
+  if [ -z "$editor" ]; then
+    editor=$($PYTHON_BIN -c "
+import json
+with open('$CONFIG_FILE', 'r') as f:
+    config = json.load(f)
+print(config.get('default_editor', 'antigravity'))
+")
+  fi
+
+  # Add project using Python
+  $PYTHON_BIN -c "
+import json
+with open('$CONFIG_FILE', 'r') as f:
+    config = json.load(f)
+
+config['projects']['$name'] = {
+    'name': '$name',
+    'win_path': r'$win_path',
+    'wsl_path': r'$wsl_path',
+    'editor': '$editor'
+}
+
+# Set as current if no current project
+if not config.get('current'):
+    config['current'] = '$name'
+
+with open('$CONFIG_FILE', 'w') as f:
+    json.dump(config, f, indent=2)
+"
+
+  msg project_registered "$name" "$wsl_path" "$win_path" "$editor"
+
+  local current
+  current=$($PYTHON_BIN -c "
+import json
+with open('$CONFIG_FILE', 'r') as f:
+    config = json.load(f)
+print(config.get('current', ''))
+")
+
+  if [ "$current" = "$name" ]; then
+    msg set_as_current
+  fi
+}
+
+# Set current project
+use_project() {
+  ensure_config
+
+  local name="$1"
+  if [ -z "$name" ]; then
+    msg err_use_name_required
+    exit 1
+  fi
+
+  # Check if project exists
+  local exists
+  exists=$($PYTHON_BIN -c "
+import json, sys
+try:
+    with open('$CONFIG_FILE', 'r') as f:
+        config = json.load(f)
+    if '$name' in config['projects']:
+        print('OK')
+    else:
+        print('NOT_FOUND')
+except Exception as e:
+    print('ERROR: ' + str(e))
+" 2>/dev/null)
+
+  if [ "$exists" != "OK" ]; then
+    msg err_project_not_found "$name"
+    exit 1
+  fi
+
+  $PYTHON_BIN -c "
+import json
+with open('$CONFIG_FILE', 'r') as f:
+    config = json.load(f)
+config['current'] = '$name'
+with open('$CONFIG_FILE', 'w') as f:
+    json.dump(config, f, indent=2)
+"
+
+  msg current_project_set "$name"
+}
+
+# List all projects
+list_projects() {
+  ensure_config
+
+  local current
+  current=$($PYTHON_BIN -c "
+import json
+with open('$CONFIG_FILE', 'r') as f:
+    config = json.load(f)
+print(config.get('current', ''))
+")
+
+  msg registered_projects
+  echo ""
+
+  $PYTHON_BIN -c "
+import json
+with open('$CONFIG_FILE', 'r') as f:
+    config = json.load(f)
+current = config.get('current', '')
+for name in config['projects'].keys():
+    marker = '* ' if name == current else '  '
+    print(f'{marker}{name}')
+"
+
+  echo ""
+  msg current_marker
+}
+
+# Resolve project name (use current if not specified)
+resolve_project() {
+  ensure_config
+
+  local requested="$1"
+
+  if [ -n "$requested" ]; then
+    # Validate project exists
+    local exists
+    exists=$($PYTHON_BIN -c "
+import json
+with open('$CONFIG_FILE', 'r') as f:
+    config = json.load(f)
+print('OK' if '$requested' in config['projects'] else 'NOT_FOUND')
+")
+    if [ "$exists" != "OK" ]; then
+      msg err_project_not_found "$requested"
+      exit 1
+    fi
+    echo "$requested"
+  else
+    # Use current project
+    local current
+    current=$($PYTHON_BIN -c "
+import json
+with open('$CONFIG_FILE', 'r') as f:
+    config = json.load(f)
+print(config.get('current', ''))
+")
+    if [ -z "$current" ]; then
+      msg err_no_current_project
+      exit 1
+    fi
+    echo "$current"
+  fi
+}
+
+# Get project win_path
+get_win_path() {
+  local name="$1"
+  $PYTHON_BIN -c "
+import json
+with open('$CONFIG_FILE', 'r') as f:
+    config = json.load(f)
+print(config['projects']['$name']['win_path'])
+"
+}
+
+# Get project wsl_path
+get_wsl_path() {
+  local name="$1"
+  $PYTHON_BIN -c "
+import json
+with open('$CONFIG_FILE', 'r') as f:
+    config = json.load(f)
+print(config['projects']['$name']['wsl_path'])
+"
+}
+
+# Get project editor
+get_editor_name() {
+  local name="$1"
+  $PYTHON_BIN -c "
+import json
+with open('$CONFIG_FILE', 'r') as f:
+    config = json.load(f)
+print(config['projects']['$name']['editor'])
+"
+}
+
+# Get editor path from editors section
+get_editor_path() {
+  local editor_name="$1"
+  $PYTHON_BIN -c "
+import json
+with open('$CONFIG_FILE', 'r') as f:
+    config = json.load(f)
+print(config['editors'].get('$editor_name', ''))
+"
+}
+
+# Get editor exe name from path
+get_editor_exe() {
+  local editor_path="$1"
+  basename "$editor_path" .exe
+}
+
+# Start editor
+start_project() {
+  local project_name
+  project_name=$(resolve_project "$1")
+
+  local wsl_path
+  local win_path
+  local editor_name
+  local editor_path
+
+  wsl_path=$(get_wsl_path "$project_name")
+  win_path=$(get_win_path "$project_name")
+  editor_name=$(get_editor_name "$project_name")
+  editor_path=$(get_editor_path "$editor_name")
+
+  if [ -z "$win_path" ] || [ -z "$editor_path" ]; then
+    msg err_resolve_path
+    exit 1
+  fi
+
+  msg starting_editor "$editor_name" "$project_name"
+  cd "$wsl_path" || exit 1
+  cmd.exe /c start "" "$editor_path" "$win_path"
+  start_ai
+}
+
+# Get Zellij layout
+get_zellij_layout() {
+  $PYTHON_BIN -c "
+import json
+with open('$CONFIG_FILE', 'r') as f:
+    config = json.load(f)
+print(config.get('zellij_layout', 'ai_workstation'))
+"
+}
+
+# Start AI workstation
+start_ai() {
+  local project_name
+  project_name=$(resolve_project "$1")
+
+  local wsl_path
+  wsl_path=$(get_wsl_path "$project_name")
+
+  if [ -z "$wsl_path" ]; then
+    msg err_resolve_path
+    exit 1
+  fi
+
+  check_command zellij
+
+  local layout
+  layout=$(get_zellij_layout)
+
+  msg starting_ai "$project_name" "$layout"
+  cd "$wsl_path" || exit 1
+  zellij --layout "$layout"
+}
+
+# Stop all tools
+stop_all() {
+  ensure_config
+
+  # Get current project's editor
+  local current
+  current=$($PYTHON_BIN -c "
+import json
+with open('$CONFIG_FILE', 'r') as f:
+    config = json.load(f)
+print(config.get('current', ''))
+")
+
+  local editor_name=""
+  local editor_exe=""
+
+  if [ -n "$current" ]; then
+    editor_name=$(get_editor_name "$current")
+    local editor_path=$(get_editor_path "$editor_name")
+    editor_exe=$(get_editor_exe "$editor_path")
+  fi
+
+  msg stopping_tools_intro
+  if [ -n "$editor_name" ]; then
+    msg stopping_tools_editor "$editor_name"
+  fi
+  msg stopping_tools_zellij
+  msg stopping_tools_wezterm
+  echo ""
+
+  msg confirm_stop
+  echo ""
+
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    msg closing_tools
+
+    # Close editor if set
+    if [ -n "$editor_exe" ]; then
+      taskkill.exe /IM "${editor_exe}.exe" /F 2>/dev/null | iconv -f GBK -t UTF-8 2>/dev/null || true
+    fi
+
+    if [ "$ZELLIJ" = "1" ]; then
+      msg exiting_zellij
+      exit
+    else
+      msg not_in_zellij
+    fi
+  else
+    msg cancelled
+  fi
+}
+
+# Show help
+show_help() {
+  msg help_title
+  msg help_usage
+  echo ""
+  msg help_commands
+  msg help_register
+  msg help_use
+  msg help_list
+  msg help_start
+  msg help_ai
+  msg help_stop
+  msg help_help
+  echo ""
+  msg help_examples
+  echo "  of register myproject"
+  echo "  of use myproject"
+  echo "  of start"
+  echo "  of ai"
+  echo ""
+}
+
+# Main dispatcher
+case "$1" in
+  register)
+    register_project "$2"
+    ;;
+  use)
+    use_project "$2"
+    ;;
+  list)
+    list_projects
+    ;;
+  start)
+    start_project "$2"
+    ;;
+  ai)
+    start_ai "$2"
+    ;;
+  stop)
+    stop_all
+    ;;
+  help|--help|-h|"")
+    show_help
+    ;;
+  *)
+    msg err_unknown_command "$1"
+    echo ""
+    show_help
+    exit 1
+    ;;
+esac

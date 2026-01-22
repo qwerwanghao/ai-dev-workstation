@@ -288,8 +288,8 @@ alias ll='eza -la --icons'
 alias tree='eza --tree --icons'
 alias cat='bat'
 
-# mm shortcut
-alias mm='~/bin/mm'
+# of shortcut
+alias of='~/bin/of'
 
 # zoxide
 if command -v zoxide &>/dev/null; then
@@ -306,26 +306,18 @@ EOF
     log_success "Shell configured"
 }
 
-# Install mm script
-install_mm() {
-    log_info "Installing mm script..."
+# Install of script
+install_of() {
+    log_info "Installing of script..."
 
     # Create bin directory
     mkdir -p "$HOME/bin"
 
-    # Copy mm script
-    cp "$SCRIPT_DIR/scripts/mm/mm" "$HOME/bin/mm"
-    chmod +x "$HOME/bin/mm"
+    # Copy of script
+    cp "$SCRIPT_DIR/scripts/of/of" "$HOME/bin/of"
+    chmod +x "$HOME/bin/of"
 
-    # Copy mm libraries
-    mkdir -p "$HOME/.ai-dev-workstation/mm"
-    cp "$SCRIPT_DIR/scripts/mm/mm-core.sh" "$HOME/.ai-dev-workstation/mm/"
-    cp "$SCRIPT_DIR/scripts/mm/mm-commands.sh" "$HOME/.ai-dev-workstation/mm/"
-
-    # Update mm script to use installed location
-    sed -i "s|SCRIPT_DIR=.*|SCRIPT_DIR=\"$HOME/.ai-dev-workstation/mm\"|" "$HOME/bin/mm"
-
-    log_success "mm script installed"
+    log_success "of script installed"
 }
 
 # Copy configurations
@@ -361,7 +353,7 @@ main() {
     install_zellij
     install_cli_tools
     configure_shell
-    install_mm
+    install_of
     copy_configs
 
     echo ""
@@ -369,8 +361,8 @@ main() {
     echo ""
     log_info "Next steps:"
     echo "  1. Run: source ~/.bashrc      # Reload shell configuration"
-    echo "  2. Run: mm init              # Initialize for your project"
-    echo "  3. Run: mm                   # Start your workstation"
+    echo "  2. Run: of register <name>   # Register your project"
+    echo "  3. Run: of start             # Start your workstation"
     echo ""
     log_info "For more information, see: https://github.com/ai-dev-workstation/ai-dev-workstation"
 }

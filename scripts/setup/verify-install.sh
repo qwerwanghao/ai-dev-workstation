@@ -78,9 +78,9 @@ check "Gemini" gemini || true
 echo ""
 
 echo "Project Management:"
-check_file "mm script" "$HOME/bin/mm"
-check_dir "mm libraries" "$HOME/.ai-dev-workstation/mm"
-check_file "mm config" "$HOME/.mmrc" || echo -e "$INFO mm config: not found (run 'mm init')"
+check_file "of script" "$HOME/bin/of"
+check_dir "of config dir" "$HOME/.config/of"
+check_file "of projects.json" "$HOME/.config/of/projects.json" || echo -e "$INFO of projects.json: not found (run 'of register <name>')"
 echo ""
 
 echo "Configuration Files:"

@@ -25,7 +25,7 @@
 - **🧩 智能分屏**: Zellij 自定义工作区布局
 - **🛠️ 现代 CLI 工具**: bat、ripgrep、eza、lazygit、zoxide、delta
 - **🖥️ Windows 集成**: 无缝的 WSL2-Windows 工作流
-- **📦 项目管理**: 通用型 `mm` 工具，支持任何项目类型
+- **📦 项目管理**: `of` - 多项目管理器，支持快速切换
 - **⚡ 一键安装**: 自动化安装，带验证功能
 
 ---
@@ -46,7 +46,7 @@ Windows 11
                 ├── zsh-syntax-highlighting
                 └── fzf
                 │
-                └── mm (项目管理器)
+                └── of (项目管理器)
                     └── AI CLI 工具
                         ├── claude
                         ├── codex
@@ -99,70 +99,72 @@ cd ai-dev-workstation
 - 安装 Zellij（终端复用器）
 - 安装现代 CLI 工具（bat、ripgrep、eza、lazygit、zoxide、delta）
 - 配置 shell 别名和集成
-- 安装 `mm` 项目管理器
+- 安装 `of` 项目管理器
 
-### 初始化你的项目
+### 快速开始
 
 ```bash
-# 为你的项目初始化
-mm init /path/to/project
+# 注册你的项目（在项目目录中运行）
+of register myproject
 
-# 启动工作站
-mm
+# 启动工作站（编辑器 + AI）
+of start
+
+# 或仅启动 AI 工作站
+of ai
 ```
 
 ---
 
 ## 📖 使用方法
 
-### `mm` 命令
+### `of` 命令
 
 ```bash
-# 启动完整工作区（IDE + AI）
-mm
+# 注册当前目录为项目
+of register myproject
+
+# 切换当前项目
+of use myproject
+
+# 列出所有已注册项目
+of list
+
+# 启动完整工作区（编辑器 + AI）
+of start [项目名]
 
 # 仅启动 AI 工作站
-mm ai
+of ai [项目名]
 
-# 初始化项目配置
-mm init [目录]
-
-# 执行自定义命令
-mm exec build
-mm exec test
-mm exec dev
-
-# 列出可用命令
-mm list
-
-# 停止工作区应用
-mm stop
+# 停止所有工具
+of stop
 
 # 显示帮助
-mm help
+of help
 ```
 
 ### 配置
 
-编辑 `~/.mmrc` 自定义你的项目：
+`of` 使用 JSON 格式配置文件 `~/.config/of/projects.json`：
 
-```bash
-# 项目配置
-PROJECT_NAME="my-project"
-PROJECT_DIR="/path/to/project"
-PROJECT_WIN="D:\\Projects\\my-project"
-PROJECT_TYPE="nodejs"  # unity-csharp, nodejs, python, generic
-
-# 自定义命令
-declare -A CMDS
-CMDS[build]="npm run build"
-CMDS[dev]="npm run dev"
-CMDS[test]="npm test"
-
-# 工作区应用
-declare -A APPS
-APPS[code]="C:\\Program Files\\Microsoft VS Code\\Code.exe"
-WORKSPACE_APPS=("code")
+```json
+{
+  "current": "myproject",
+  "default_editor": "antigravity",
+  "zellij_layout": "ai_workstation",
+  "editors": {
+    "antigravity": "C:\\Users\\YourName\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+    "vscode": "C:\\Program Files\\Microsoft VS Code\\Code.exe"
+  },
+  "projects": {
+    "myproject": {
+      "name": "myproject",
+      "win_path": "F:\\Git\\myproject",
+      "wsl_path": "/mnt/f/Git/myproject",
+      "editor": "antigravity"
+    }
+  }
+}
 ```
 
 ---
@@ -183,17 +185,12 @@ ai-dev-workstation/
 │   │   ├── wezterm.lua
 │   │   └── colors/
 │   ├── shell/                   # Shell 配置
-│   └── templates/               # 项目模板
-│       ├── .mmrc.example
-│       ├── nodejs.mmrc
-│       ├── python.mmrc
-│       ├── unity-csharp.mmrc
-│       └── generic.mmrc
+│   ├── of/                      # of 配置模板
+│   │   └── projects.json.example
+│   └── templates/               # 旧版项目模板（已废弃）
 ├── scripts/
-│   ├── mm/                      # 项目管理器
-│   │   ├── mm
-│   │   ├── mm-core.sh
-│   │   └── mm-commands.sh
+│   ├── of/                      # 项目管理器
+│   │   └── of
 │   ├── setup/                   # 安装脚本
 │   │   └── verify-install.sh
 │   └── uninstall.sh             # 卸载脚本

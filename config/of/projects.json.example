@@ -1,0 +1,12 @@
+{
+  "current": "",
+  "default_editor": "antigravity",
+  "zellij_layout": "ai_workstation",
+  "editors": {
+    "antigravity": "C:\\Users\\YOUR_USERNAME\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+    "vscode": "C:\\Program Files\\Microsoft VS Code\\Code.exe",
+    "rider": "C:\\Users\\YOUR_USERNAME\\AppData\\Local\\Programs\\Rider\\bin\\rider64.exe",
+    "visualstudio": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\devenv.exe"
+  },
+  "projects": {}
+}
