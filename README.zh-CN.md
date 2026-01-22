@@ -57,6 +57,8 @@ Windows 11
 
 ## 📸 截图
 
+![Screenshots](screenshots/ai-dev-workstation.png)
+
 ### AI 工作站布局
 四面板布局，实现多 AI 协作：
 - **左上**: Claude（架构与推理）
@@ -275,6 +277,6 @@ ai-dev-workstation/
 
 <div align="center">
 
-![微信支付](screenshots/wechatpayqrcode.jpg)
+![微信支付](screenshots/wechatpayqrcode.png)
 
 </div>

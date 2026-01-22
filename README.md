@@ -55,6 +55,8 @@ Windows 11
 
 ## 📸 Screenshots
 
+![Screenshots](screenshots/ai-dev-workstation.png)
+
 ### AI Workstation Layout
 A 4-pane layout for multi-AI collaboration:
 - **Top-Left**: Claude (Architecture & Reasoning)
@@ -273,6 +275,6 @@ If this project helps you, consider buying me a coffee!
 
 <div align="center">
 
-![WeChat Pay](screenshots/wechatpayqrcode.jpg)
+![WeChat Pay](screenshots/wechatpayqrcode.png)
 
 </div>

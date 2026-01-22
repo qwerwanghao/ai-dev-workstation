@@ -23,7 +23,6 @@ Thumbs.db
 tmp/
 
 # Screenshots (unless explicitly added)
-screenshots/*.png
 !screenshots/.gitkeep
 
 # Build artifacts
