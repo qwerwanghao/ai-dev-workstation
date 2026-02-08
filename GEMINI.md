@@ -34,10 +34,18 @@ Located at `scripts/of/of`, this Zsh script is the core control utility. It mana
 *   **`config/wezterm/`**: Lua configuration for WezTerm, including the Tokyo Night color scheme.
 *   **`config/zellij/`**: KDL configuration for Zellij.
     *   `config.kdl`: Main settings.
-    *   `layouts/`: Defines pane structures (e.g., `ai_workstation.kdl` for the tabbed AI view).
+    *   `layouts/`: Defines pane structures. The default `ai_workstation.kdl` uses a **3-tab strategy** (Reasoning, Implementation, Execution).
 *   **`config/shell/`**: Shell configuration snippets (aliases, exports).
 
-### 3. Installation Scripts (`install.sh`)
+### 3. Documentation (`docs/`)
+The project now includes comprehensive documentation for both users and contributors:
+*   **Configuration**: `docs/configuration.md` (JSON structure, path mapping).
+*   **Customization**: `docs/customization.md` (Creating layouts, adding editors).
+*   **Workflows**: `docs/workflows/ai-development.md` (Detailed 3-Tab AI workflow).
+*   **Troubleshooting**: `docs/troubleshooting.md` (Common WSL/Path issues).
+*   **Translations**: Chinese documentation is available in `docs/zh-CN/`.
+
+### 4. Installation Scripts (`install.sh`)
 *   **`install.sh`**: The master installer. It detects the OS, installs dependencies (WezTerm, Zellij, CLI tools), and deploys configuration files.
 *   **`scripts/setup/verify-install.sh`**: Verifies that all components are correctly installed.
 
@@ -76,3 +84,4 @@ When working on this repository, be aware that:
 *   This code runs inside WSL2 but interacts heavily with the Windows host (launching `.exe` files).
 *   File paths often need to be considered in both Unix and Windows formats.
 *   The `of` script acts as the "glue" holding the workflow together.
+*   **Documentation First**: Before answering user questions about configuration or workflows, check the `docs/` folder first.
