@@ -68,7 +68,7 @@ User configuration lives in `~/.config/of/projects.json`:
 
 ### Zellij Layouts (`config/zellij/layouts/`)
 
-- **`ai_workstation.kdl`** - 4-pane layout: Claude (top-left), Codex (top-right), Gemini (bottom-left), Shell (bottom-right)
+- **`ai_workstation.kdl`** - 3-tab layout: Core Agents (Gemini/Claude), Support (Codex/OpenCode), Terminal (Shell/LazyGit)
 - **`development.kdl`** - 3-pane dev layout
 - **`minimal.kdl`** - 2-pane minimal layout
 

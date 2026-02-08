@@ -58,19 +58,26 @@ Windows 11
 ![Screenshots](screenshots/ai-dev-workstation.png)
 
 ### AI Workstation Layout
-A 4-pane layout for multi-AI collaboration:
-- **Top-Left**: Claude (Architecture & Reasoning)
-- **Top-Right**: Codex (Code Generation)
-- **Bottom-Left**: Gemini (Docs & Algorithms)
-- **Bottom-Right**: Shell (Git, Server, Tools)
+A tabbed layout for organized AI collaboration:
+
+**Tab 1: Core Agents**
+- **Left**: Gemini (Docs & Algorithms)
+- **Right**: Claude (Architecture & Reasoning)
+
+**Tab 2: Support**
+- **Top**: Codex (Code Generation)
+- **Bottom**: OpenCode (Code Assistance)
+
+**Tab 3: Terminal**
+- **Top**: Shell
+- **Bottom**: Git (LazyGit)
 
 ```
+[ Tab 1: Core Agents ] [ Tab 2: Support ] [ Tab 3: Terminal ]
 ┌─────────────────┬─────────────────┐
-│   Claude        │    Codex        │
-│   (Reasoning)   │   (Generation)  │
-├─────────────────┼─────────────────┤
-│   Gemini        │    Shell        │
-│   (Docs)        │   (Tools)       │
+│                 │                 │
+│    Gemini       │     Claude      │
+│                 │                 │
 └─────────────────┴─────────────────┘
 ```
 

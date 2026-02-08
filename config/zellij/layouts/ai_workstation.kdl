@@ -1,24 +1,43 @@
 layout {
-    pane split_direction="horizontal" {
+    default_tab_template {
+        pane size=1 borderless=true {
+            plugin location="zellij:tab-bar"
+        }
+        children
+        pane size=2 borderless=true {
+            plugin location="zellij:status-bar"
+        }
+    }
 
+    // Tab 1: Core Agents (Gemini & Claude)
+    tab name="Core Agents" focus=true {
         pane split_direction="vertical" {
-
-            pane command="bash" {
-                args "-c" "exec claude --dangerously-skip-permissions || bash"
+            pane command="zsh" name="Gemini" {
+                args "-lic" "gemini || true; exec zsh -il"
             }
-
-            pane command="bash" {
-                args "-c" "exec codex || bash"
+            pane command="zsh" name="Claude" {
+                args "-lic" "claude --dangerously-skip-permissions || true; exec zsh -il"
             }
         }
+    }
 
-        pane split_direction="vertical" {
-
-            pane command="bash" {
-                args "-c" "exec gemini || bash"
+    // Tab 2: Support (Codex & OpenCode)
+    tab name="Support" {
+        pane split_direction="horizontal" {
+            pane command="zsh" name="Codex" {
+                args "-lic" "codex || true; exec zsh -il"
             }
+            pane command="zsh" name="OpenCode" {
+                args "-lic" "opencode || true; exec zsh -il"
+            }
+        }
+    }
 
-            pane
+    // Tab 3: Terminal & Git
+    tab name="Terminal" {
+        pane split_direction="vertical" {
+            pane name="Shell"
+            pane command="lazygit" name="Git"
         }
     }
 }
