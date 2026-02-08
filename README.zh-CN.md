@@ -57,7 +57,11 @@ Windows 11
 
 ## 📸 截图
 
-![Screenshots](screenshots/ai-dev-workstation.png)
+![Screenshots](docs/screenshots/ai-dev-workstation1.png)
+
+![Screenshots](docs/screenshots/ai-dev-workstation2.png)
+
+![Screenshots](docs/screenshots/ai-dev-workstation3.png)
 
 ### AI 工作站布局
 多标签页布局，实现井井有条的 AI 协作：

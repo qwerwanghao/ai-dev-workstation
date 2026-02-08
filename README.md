@@ -55,7 +55,11 @@ Windows 11
 
 ## 📸 Screenshots
 
-![Screenshots](screenshots/ai-dev-workstation.png)
+![Screenshots](screenshots/ai-dev-workstation1.png)
+
+![Screenshots](screenshots/ai-dev-workstation2.png)
+
+![Screenshots](screenshots/ai-dev-workstation3.png)
 
 ### AI Workstation Layout
 A tabbed layout for organized AI collaboration:
